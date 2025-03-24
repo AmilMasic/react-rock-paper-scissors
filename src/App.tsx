@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
 
+import "./App.css";
+
+type Move = "rock" | "paper" | "scissors";
+const MOVES: readonly Move[] = ["rock", "paper", "scissors"];
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [computerMove, setComputerMove] = useState<Move>("rock");
+  const getRandomMove = () => {
+    const randomIndex = Math.floor(Math.random() * MOVES.length);
+    return MOVES[randomIndex];
+  };
+
+  useEffect(() => {
+    setComputerMove(getRandomMove());
+  }, []);
+
+  return <div>Computer move: {computerMove}</div>;
 }
 
 export default App;
