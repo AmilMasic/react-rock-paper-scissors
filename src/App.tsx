@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import "./App.css";
 
@@ -9,11 +9,7 @@ const getRandomMove = () => {
   return MOVES[randomIndex];
 };
 function App() {
-  const [computerMove, setComputerMove] = useState<Move>("rock");
-
-  useEffect(() => {
-    setComputerMove(getRandomMove());
-  }, []);
+  const [computerMove, setComputerMove] = useState<Move>(getRandomMove());
 
   return <div>Computer move: {computerMove}</div>;
 }
