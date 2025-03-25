@@ -23,7 +23,6 @@ function App() {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-
     padding: 10,
   } as const;
 
@@ -36,6 +35,7 @@ function App() {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    fontSize: 20,
     gap: 10,
     padding: 10,
   } as const;
@@ -56,10 +56,20 @@ function App() {
     padding: 10,
   } as const;
 
+  const greetingStyles = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    padding: 10,
+  } as const;
+
   return (
     <>
       <div style={titleStyles}>ROCK PAPER SCISSOR</div>
-      <p>Hello Player, Choose your move. Choose wisely!</p>
+      <p style={greetingStyles}>
+        Hello Player, Choose your move. Choose wisely!
+      </p>
       <div style={buttonDivStyles}>
         <button style={buttonStyles} onClick={() => setPlayerMove("rock")}>
           Rock
