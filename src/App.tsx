@@ -17,84 +17,53 @@ function App() {
 		setPlayerMove(null);
 	};
 
-	// Styles
-	const buttonDivStyles = {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 10,
-		padding: 10,
-	} as const;
-
-	const buttonStyles = {
-		padding: 10,
-		cursor: "pointer",
-	};
-
-	const titleStyles = {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		fontSize: 20,
-		gap: 10,
-		padding: 10,
-	} as const;
-
-	const resetStyles = {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 10,
-		padding: 10,
-	} as const;
-
-	const moveStyles = {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 10,
-		padding: 10,
-	} as const;
-
-	const greetingStyles = {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 10,
-		padding: 10,
-	} as const;
-
 	return (
-		<>
-			<div className="bg-red-500 p-6">ROCK PAPER SCISSOR</div>
-			<p style={greetingStyles}>
+		<div className="bg-gray-200 md:w-1/2 w-full mx-auto h-screen flex flex-col align-items-center *:mx-auto ">
+			<div className=" py-5 font-bold text-2xl  ">ROCK PAPER SCISSOR</div>
+			<p className="py-5 font-semibold">
 				Hello Player, Choose your move. Choose wisely!
 			</p>
-			<div style={buttonDivStyles}>
-				<button style={buttonStyles} onClick={() => setPlayerMove("rock")}>
+			<div className="space-x-5 my-5 border border-1 border-gray-300 p-8 rounded-md">
+				<button
+					className=" bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
+					onClick={() => setPlayerMove("rock")}
+				>
 					Rock
 				</button>
-				<button style={buttonStyles} onClick={() => setPlayerMove("paper")}>
+				<button
+					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
+					onClick={() => setPlayerMove("paper")}
+				>
 					Paper
 				</button>
-				<button style={buttonStyles} onClick={() => setPlayerMove("scissors")}>
+				<button
+					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
+					onClick={() => setPlayerMove("scissors")}
+				>
 					Scissors
 				</button>
 			</div>
 			{playerMove && (
 				<>
-					<div style={moveStyles}> Computer move: {computerMove}</div>
-
-					<div style={moveStyles}>Player move: {playerMove}</div>
-
-					<div style={resetStyles}>
-						<button style={buttonStyles} onClick={resetGame}>
-							Reset
-						</button>
+					<div className="flex flex-col my-5">
+						<div>
+							Your move:
+							<span className="font-bold ml-2">{playerMove}</span>
+						</div>
+						<div>
+							Computer move:
+							<span className="font-bold ml-2">{computerMove}</span>
+						</div>
 					</div>
+					<button
+						className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
+						onClick={resetGame}
+					>
+						Reset
+					</button>
 				</>
 			)}
-		</>
+		</div>
 	);
 }
 
