@@ -66,7 +66,7 @@ function App() {
 
 	return (
 		<>
-			<div style={titleStyles}>ROCK PAPER SCISSOR</div>
+			<div className="bg-red-500 p-6">ROCK PAPER SCISSOR</div>
 			<p style={greetingStyles}>
 				Hello Player, Choose your move. Choose wisely!
 			</p>
