@@ -93,11 +93,13 @@ function App() {
 						</div>
 					</div>
 					<h3
-						className={`font-bold text-2xl mb-5  ${
-							gameResult === "player" ? "text-green-500" : "text-red-500"
-						} 
-               ${gameResult === "tie" && "text-gray-500"}
-            `}
+						className={`font-bold text-2xl mb-5 ${
+							gameResult === "tie"
+								? "text-gray-500"
+								: gameResult === "player"
+								? "text-green-500"
+								: "text-red-500"
+						}`}
 					>
 						{winningMessage}
 					</h3>
