@@ -20,6 +20,8 @@ function App() {
 	const resetGame = () => {
 		setComputerMove(getRandomMove());
 		setPlayerMove(null);
+		setGameResult(null);
+		setWinningMessage("");
 	};
 
 	const checkWinner = (playerMove: Move, computerMove: Move) => {
@@ -57,18 +59,21 @@ function App() {
 			</p>
 			<div className="space-x-5 my-5 border border-1 border-gray-300 p-8 rounded-md">
 				<button
+					disabled={playerMove !== null}
 					className=" bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 					onClick={() => setPlayerMove("rock")}
 				>
 					Rock
 				</button>
 				<button
+					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 					onClick={() => setPlayerMove("paper")}
 				>
 					Paper
 				</button>
 				<button
+					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 					onClick={() => setPlayerMove("scissors")}
 				>
