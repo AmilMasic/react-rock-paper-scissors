@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import "./App.css";
 
@@ -24,32 +24,23 @@ function App() {
 		setWinningMessage("");
 	};
 
-	const checkWinner = (playerMove: Move, computerMove: Move) => {
-		if (playerMove === computerMove) {
+	const checkWinner = (move: Move, computerMove: Move) => {
+		setPlayerMove(move);
+		if (move === computerMove) {
 			setGameResult("tie");
+			setWinningMessage("It's a tie!");
 		} else if (
-			(playerMove === "rock" && computerMove === "scissors") ||
-			(playerMove === "paper" && computerMove === "rock") ||
-			(playerMove === "scissors" && computerMove === "paper")
+			(move === "rock" && computerMove === "scissors") ||
+			(move === "paper" && computerMove === "rock") ||
+			(move === "scissors" && computerMove === "paper")
 		) {
 			setGameResult("player");
+			setWinningMessage("You chose... Well!");
 		} else {
 			setGameResult("computer");
+			setWinningMessage("You chose... Poorly!");
 		}
 	};
-
-	useEffect(() => {
-		if (playerMove !== null) {
-			checkWinner(playerMove, computerMove);
-			if (gameResult === "player") {
-				setWinningMessage("You chose... Well!");
-			} else if (gameResult === "computer") {
-				setWinningMessage("You chose... Poorly!!");
-			} else {
-				setWinningMessage("It's a tie! ");
-			}
-		}
-	}, [gameResult, playerMove, computerMove]);
 
 	return (
 		<div className="bg-gray-200 md:w-1/2 w-full mx-auto h-screen flex flex-col align-items-center *:mx-auto ">
@@ -61,26 +52,26 @@ function App() {
 				<button
 					disabled={playerMove !== null}
 					className=" bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("rock")}
+					onClick={() => checkWinner("rock", computerMove)}
 				>
 					Rock
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("paper")}
+					onClick={() => checkWinner("paper", computerMove)}
 				>
 					Paper
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("scissors")}
+					onClick={() => checkWinner("scissors", computerMove)}
 				>
 					Scissors
 				</button>
 			</div>
-			{playerMove && (
+			{gameResult && (
 				<>
 					<div className="flex flex-col my-5">
 						<div>
