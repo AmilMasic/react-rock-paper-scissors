@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import "./App.css";
 
@@ -14,42 +14,38 @@ const getRandomMove = () => {
 function App() {
 	const [computerMove, setComputerMove] = useState<Move>(getRandomMove());
 	const [playerMove, setPlayerMove] = useState<Move | null>(null);
-	const [gameResult, setGameResult] = useState<GameResult | null>(null);
-	const [winningMessage, setWinningMessage] = useState("");
 
 	const resetGame = () => {
 		setComputerMove(getRandomMove());
 		setPlayerMove(null);
-		setGameResult(null);
-		setWinningMessage("");
 	};
 
-	const checkWinner = (playerMove: Move, computerMove: Move) => {
-		if (playerMove === computerMove) {
-			setGameResult("tie");
+	const checkWinner = (move: Move, computerMove: Move) => {
+		if (move === computerMove) {
+			return "tie";
 		} else if (
-			(playerMove === "rock" && computerMove === "scissors") ||
-			(playerMove === "paper" && computerMove === "rock") ||
-			(playerMove === "scissors" && computerMove === "paper")
+			(move === "rock" && computerMove === "scissors") ||
+			(move === "paper" && computerMove === "rock") ||
+			(move === "scissors" && computerMove === "paper")
 		) {
-			setGameResult("player");
+			return "player";
 		} else {
-			setGameResult("computer");
+			return "computer";
 		}
 	};
 
-	useEffect(() => {
+	const winningMesagge = () => {
 		if (playerMove !== null) {
-			checkWinner(playerMove, computerMove);
-			if (gameResult === "player") {
-				setWinningMessage("You chose... Well!");
-			} else if (gameResult === "computer") {
-				setWinningMessage("You chose... Poorly!!");
+			const result = checkWinner(playerMove, computerMove);
+			if (result === "player") {
+				return "You Win!";
+			} else if (result === "computer") {
+				return "You Lose!";
 			} else {
-				setWinningMessage("It's a tie! ");
+				return "Tie!";
 			}
 		}
-	}, [gameResult, playerMove, computerMove]);
+	};
 
 	return (
 		<div className="bg-gray-200 md:w-1/2 w-full mx-auto h-screen flex flex-col align-items-center *:mx-auto ">
@@ -80,7 +76,7 @@ function App() {
 					Scissors
 				</button>
 			</div>
-			{playerMove && (
+			{playerMove !== null && (
 				<>
 					<div className="flex flex-col my-5">
 						<div>
@@ -92,17 +88,7 @@ function App() {
 							<span className="font-bold ml-2">{computerMove}</span>
 						</div>
 					</div>
-					<h3
-						className={`font-bold text-2xl mb-5 ${
-							gameResult === "tie"
-								? "text-gray-500"
-								: gameResult === "player"
-								? "text-green-500"
-								: "text-red-500"
-						}`}
-					>
-						{winningMessage}
-					</h3>
+					<h3 className={`font-bold text-2xl mb-5`}>{winningMesagge()}</h3>
 					<button
 						className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 						onClick={resetGame}
