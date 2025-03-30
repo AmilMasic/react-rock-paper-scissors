@@ -34,13 +34,13 @@ function App() {
 		const result = determineWinner(move, computerMove);
 		if (result === "tie") {
 			setGameResult({ ...gameResult, ties: gameResult.ties + 1 });
-			setWinnerText("tie");
+			setWinnerText("It's a tie!");
 		} else if (result === "player") {
 			setGameResult({ ...gameResult, wins: gameResult.wins + 1 });
-			setWinnerText("player");
+			setWinnerText("You Won!");
 		} else {
 			setGameResult({ ...gameResult, losses: gameResult.losses + 1 });
-			setWinnerText("computer");
+			setWinnerText("You Lost!");
 		}
 	};
 
@@ -95,7 +95,7 @@ function App() {
 							Computer move:
 							<span className="font-bold ml-2">{computerMove}</span>
 						</div>
-						<p className="font-bold">Winner: {winnerText}</p>
+						<p className="font-bold mx-auto text-xl my-2"> {winnerText}</p>
 					</div>
 					<div className="flex justify-normal space-x-5 my-5">
 						<p>Game Results:</p>
