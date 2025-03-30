@@ -5,8 +5,11 @@ import "./App.css";
 const MOVES = ["rock", "paper", "scissors"] as const;
 type Move = (typeof MOVES)[number];
 
-const GAMERESULT = ["tie", "player", "computer"] as const;
-type GameResult = (typeof GAMERESULT)[number];
+type GameResult = {
+	wins: number;
+	losses: number;
+	ties: number;
+};
 const getRandomMove = () => {
 	const randomIndex = Math.floor(Math.random() * MOVES.length);
 	return MOVES[randomIndex];
@@ -14,37 +17,42 @@ const getRandomMove = () => {
 function App() {
 	const [computerMove, setComputerMove] = useState<Move>(getRandomMove());
 	const [playerMove, setPlayerMove] = useState<Move | null>(null);
+	const [winnerText, setWinnerText] = useState("");
+	const [gameResult, setGameResult] = useState<GameResult>({
+		wins: 0,
+		losses: 0,
+		ties: 0,
+	});
 
 	const resetGame = () => {
 		setComputerMove(getRandomMove());
 		setPlayerMove(null);
 	};
 
-	const checkWinner = (move: Move, computerMove: Move) => {
-		if (move === computerMove) {
-			return "tie";
-		} else if (
-			(move === "rock" && computerMove === "scissors") ||
-			(move === "paper" && computerMove === "rock") ||
-			(move === "scissors" && computerMove === "paper")
-		) {
-			return "player";
+	const handleMove = (move: Move) => {
+		setPlayerMove(move);
+		const result = determineWinner(move, computerMove);
+		if (result === "tie") {
+			setGameResult({ ...gameResult, ties: gameResult.ties + 1 });
+			setWinnerText("It's a tie!");
+		} else if (result === "player") {
+			setGameResult({ ...gameResult, wins: gameResult.wins + 1 });
+			setWinnerText("You Won!");
 		} else {
-			return "computer";
+			setGameResult({ ...gameResult, losses: gameResult.losses + 1 });
+			setWinnerText("You Lost!");
 		}
 	};
 
-	const winningMesagge = () => {
-		if (playerMove !== null) {
-			const result = checkWinner(playerMove, computerMove);
-			if (result === "player") {
-				return "You Win!";
-			} else if (result === "computer") {
-				return "You Lose!";
-			} else {
-				return "Tie!";
-			}
-		}
+	const determineWinner = (move: Move, computerMove: Move) => {
+		if (move === computerMove) return "tie";
+		if (
+			(move === "rock" && computerMove === "scissors") ||
+			(move === "paper" && computerMove === "rock") ||
+			(move === "scissors" && computerMove === "paper")
+		)
+			return "player";
+		return "computer";
 	};
 
 	return (
@@ -57,21 +65,21 @@ function App() {
 				<button
 					disabled={playerMove !== null}
 					className=" bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("rock")}
+					onClick={() => handleMove("rock")}
 				>
 					Rock
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("paper")}
+					onClick={() => handleMove("paper")}
 				>
 					Paper
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => setPlayerMove("scissors")}
+					onClick={() => handleMove("scissors")}
 				>
 					Scissors
 				</button>
@@ -87,8 +95,14 @@ function App() {
 							Computer move:
 							<span className="font-bold ml-2">{computerMove}</span>
 						</div>
+						<p className="font-bold mx-auto text-xl my-2"> {winnerText}</p>
 					</div>
-					<h3 className={`font-bold text-2xl mb-5`}>{winningMesagge()}</h3>
+					<div className="flex justify-normal space-x-5 my-5">
+						<p>Game Results:</p>
+						<p>Wins: {gameResult.wins}</p>
+						<p>Losses: {gameResult.losses}</p>
+						<p>Ties: {gameResult.ties}</p>
+					</div>
 					<button
 						className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 						onClick={resetGame}
