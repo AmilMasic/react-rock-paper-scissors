@@ -71,7 +71,7 @@ function App() {
 				</button>
 				<button
 					disabled={playerMove !== null}
-					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
+					className="bg-gray-300 py-2 px-4 rounded-md min-w-24  hover:bg-slate-400"
 					onClick={() => handleMove("paper")}
 				>
 					Paper
