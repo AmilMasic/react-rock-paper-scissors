@@ -14,31 +14,36 @@ const getRandomMove = () => {
 function App() {
 	const [computerMove, setComputerMove] = useState<Move>(getRandomMove());
 	const [playerMove, setPlayerMove] = useState<Move | null>(null);
-	const [gameResult, setGameResult] = useState<GameResult | null>(null);
-	const [winningMessage, setWinningMessage] = useState("");
 
 	const resetGame = () => {
 		setComputerMove(getRandomMove());
 		setPlayerMove(null);
-		setGameResult(null);
-		setWinningMessage("");
 	};
 
 	const checkWinner = (move: Move, computerMove: Move) => {
-		setPlayerMove(move);
 		if (move === computerMove) {
-			setGameResult("tie");
-			setWinningMessage("It's a tie!");
+			return "tie";
 		} else if (
 			(move === "rock" && computerMove === "scissors") ||
 			(move === "paper" && computerMove === "rock") ||
 			(move === "scissors" && computerMove === "paper")
 		) {
-			setGameResult("player");
-			setWinningMessage("You chose... Well!");
+			return "player";
 		} else {
-			setGameResult("computer");
-			setWinningMessage("You chose... Poorly!");
+			return "computer";
+		}
+	};
+
+	const winningMesagge = () => {
+		if (playerMove !== null) {
+			const result = checkWinner(playerMove, computerMove);
+			if (result === "player") {
+				return "You Win!";
+			} else if (result === "computer") {
+				return "You Lose!";
+			} else {
+				return "Tie!";
+			}
 		}
 	};
 
@@ -52,26 +57,26 @@ function App() {
 				<button
 					disabled={playerMove !== null}
 					className=" bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => checkWinner("rock", computerMove)}
+					onClick={() => setPlayerMove("rock")}
 				>
 					Rock
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => checkWinner("paper", computerMove)}
+					onClick={() => setPlayerMove("paper")}
 				>
 					Paper
 				</button>
 				<button
 					disabled={playerMove !== null}
 					className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
-					onClick={() => checkWinner("scissors", computerMove)}
+					onClick={() => setPlayerMove("scissors")}
 				>
 					Scissors
 				</button>
 			</div>
-			{gameResult && (
+			{playerMove !== null && (
 				<>
 					<div className="flex flex-col my-5">
 						<div>
@@ -83,17 +88,7 @@ function App() {
 							<span className="font-bold ml-2">{computerMove}</span>
 						</div>
 					</div>
-					<h3
-						className={`font-bold text-2xl mb-5 ${
-							gameResult === "tie"
-								? "text-gray-500"
-								: gameResult === "player"
-								? "text-green-500"
-								: "text-red-500"
-						}`}
-					>
-						{winningMessage}
-					</h3>
+					<h3 className={`font-bold text-2xl mb-5`}>{winningMesagge()}</h3>
 					<button
 						className="bg-gray-300 py-2 px-4 rounded-md min-w-24 hover:bg-slate-400"
 						onClick={resetGame}
